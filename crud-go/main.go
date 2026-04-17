@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 )
@@ -60,17 +61,27 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 func createMovie(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var movie Movie
-	err := json.NewDecoder(r.Body).Decode(&movie) // decode the json in the payload using Decoder
-	if err != nil {
-		fmt.Errorf("Movie Payload NOT correct, please check the input")
-	}
-	movie.ID = (string(rand.Intn(100000000)))
+	json.NewDecoder(r.Body).Decode(&movie) // decode the json in the payload using Decoder
+	movie.ID = (strconv.Itoa(rand.Intn(100000000)))
 	movies = append(movies, movie)
 	json.NewEncoder(w)
 }
 
-func updateMovie(w *http.ResponseWriter, r *http.Request) {
+func updateMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
 
+	for index, value := range movies {
+		if value.ID == params["id"] {
+			movies = append(movies[:index], movies[index+1:]...)
+			var movie Movie
+			_ = json.NewDecoder(r.Body).Decode(&movie)
+			movie.ID = params["id"]
+			movies = append(movies, movie)
+			json.NewEncoder(w).Encode(movie)
+			return
+		}
+	}
 }
 
 func main() {
@@ -87,6 +98,6 @@ func main() {
 	r.HandleFunc("/movie/{id}", deleteMovie).Methods("DELETE")
 
 	fmt.Println("Starting server on port 8080...")
-	log.Fatal(http.ListenAndServe(":8000", r))
+	log.Fatal(http.ListenAndServe(":8080", r))
 
 }
