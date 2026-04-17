@@ -21,3 +21,18 @@ The server has 3 routes -
 5. GET a movie by ID.
 6. This is done without using a web-framework, but with http. I bind different functions to different API routes, and also set specific GET / PUT / PATCH / DELETE methods. 
 7. This was my FIRST proper REST API using Go!
+
+# 3. Boring
+
+This is an example of using fan-in and fan-out using channels!
+Channels BLOCK. We can use the channels to basically delegate a long, time-consuming task to multiple worker functions.
+The functions will then write to a single channel.
+
+```
+Fan-out : When we have a large, time-consuming task, we can give it to multiple functions and launch multiple Go-Routines.
+This will reduce the time taken.
+
+Fan-in : We can have multiple channels from multiple go-routines write to a single channel, and read the final output from that channel.
+```
+
+Boring is an interesting, documented example given by Rob Pike (the GOAT). I am simply trying to implement it without looking.
