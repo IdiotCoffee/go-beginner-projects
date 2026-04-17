@@ -10,4 +10,5 @@ The server has 3 routes -
 - ```/form.html```  will show the form.html page, where you can add your name and address (this won't be stored, ofcourse) and then it returns a response, printing the name and address you gave it.
 - ```/hello```  prints a simple "Hello, Gophers!" message.
 
-# A Simple Crud Application
+# 2. A Simple Crud Application
+![CRUD FlowChart](pictures/crud.png)

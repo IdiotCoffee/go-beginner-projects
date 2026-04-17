@@ -69,6 +69,10 @@ func createMovie(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w)
 }
 
+func updateMovie(w *http.ResponseWriter, r *http.Request) {
+
+}
+
 func main() {
 	r := mux.NewRouter()
 
