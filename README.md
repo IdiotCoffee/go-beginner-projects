@@ -12,3 +12,12 @@ The server has 3 routes -
 
 # 2. A Simple Crud Application
 ![CRUD FlowChart](pictures/crud.png)
+
+- In this application, I have simulated a database using Structs. It is a database of movies. Now, I have built 4 REST APIs which can do the following:
+1. Create a new movie entry
+2. Updpate an existing entry
+3. Delete an existing entry
+4. GET all the movies
+5. GET a movie by ID.
+6. This is done without using a web-framework, but with http. I bind different functions to different API routes, and also set specific GET / PUT / PATCH / DELETE methods. 
+7. This was my FIRST proper REST API using Go!
