@@ -6,11 +6,11 @@ import (
 	"time"
 )
 
-// here, boring() is a fan-out pattern. We put 2 go-routines in this fan-out.
+// here, boring() is implementing a sort of fan-out pattern. We put 2 go-routines in this fan-out.
 // Function fanIn will then take the 2 responses from the 2 go-routines, and combine them into 1 response
 // This will be returned as a channel, and in func main(), I am printing the values from that channel.
 func main() {
-	c := fanIn(boring("Ishaan"), boring("Shreeraj"))
+	c := fanIn(boring("Joe"), boring("Annie")) // essentially making 2 go-routines - boring() by itself is NOT fanning out.
 	for i := 0; i < 10; i++ {
 		fmt.Println(<-c)
 	}
