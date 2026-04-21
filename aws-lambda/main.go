@@ -83,14 +83,32 @@ func approxReadTime(s string) int {
 // 3. most frequent word
 // 4. approximate reading time
 func IntelligentReader(ctx context.Context, req Request) (Response, error) {
-
+	wcChan := make(chan int)
+	cChan := make(chan map[string]int)
+	mfwChan := make(chan string)
+	rtChan := make(chan int)
 	answer := Response{}
 	s := normalize(req.Text)
-	answer.WordCount = wordCount(s)
-	answer.CharCount = charCount(s)
-	answer.MostFrequentWord = mostFrequentWord(s)
-	answer.ReadingTime = approxReadTime(s)
+
+	go func() {
+		wcChan <- wordCount(s)
+	}()
+	go func() {
+		cChan <- charCount(s)
+	}()
+	go func() {
+		mfwChan <- mostFrequentWord(s)
+	}()
+	go func() {
+		rtChan <- approxReadTime(s)
+	}()
+	answer.WordCount = <-wcChan
+	answer.CharCount = <-cChan
+	answer.MostFrequentWord = <-mfwChan
+	answer.ReadingTime = <-rtChan
+
 	return answer, nil
+
 }
 
 func main() {
